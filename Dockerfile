@@ -122,8 +122,8 @@ RUN rm -rf /etc/apt/sources.list && \
 	add-apt-repository "deb https://download.sublimetext.com/ apt/stable/" && \
 	apt install -y sublime-text && \
 #Telegram
-	wget https://updates.tdesktop.com/tlinux/tsetup.2.7.4.tar.xz -P /tmp && \
-	tar -xvf /tmp/tsetup.2.7.4.tar.xz -C /tmp && \
+	wget "https://telegram.org/dl/desktop/linux" -O /tmp/tsetup.tar.xz && \
+	tar -xvf /tmp/tsetup.tar.xz -C /tmp && \
 	mv /tmp/Telegram/Telegram /usr/bin/telegram && \
 #PowerShell
 	wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -P /tmp && \
