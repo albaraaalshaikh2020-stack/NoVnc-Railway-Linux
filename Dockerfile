@@ -38,10 +38,14 @@ RUN rm -rf /etc/apt/sources.list && \
 		npm \
 		firefox \
 		xterm \
-		fluxbox \
 		python3 \
 		python3-pip \
-		build-essential && \
+		build-essential \
+		xfce4 \
+		xfce4-terminal \
+		xfce4-taskmanager \
+		mousepad \
+		thunar && \
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
 	cp /usr/share/novnc/vnc.html /usr/share/novnc/index.html && \
