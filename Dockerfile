@@ -6,8 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 	VNC_PASS="samplepass" \
 	VNC_TITLE="MyDesktop" \
 	VNC_RESOLUTION="1280x720" \
-	DISPLAY=:0 \
-	NOVNC_PORT=$PORT \
+	DISPLAY=:1 \
 	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
 	LC_ALL=C.UTF-8 \
@@ -20,35 +19,38 @@ RUN rm -rf /etc/apt/sources.list && \
 	rm /bin/sh && ln -s /bin/bash /bin/sh && \
 	apt-get update && \
 	apt-get install -y \
-	tzdata \
-	wget \
-	curl \
-	git \
-	vim \
-	zip \
-	unzip \
-	sudo \
-	net-tools \
-	supervisor \
-	x11vnc \
-	xvfb \
-	novnc \
-	openssl \
-	nodejs \
-	npm \
-	firefox \
-	xterm \
-	fluxbox \
-	python3 \
-	python3-pip \
-	build-essential && \
+		tzdata \
+		wget \
+		curl \
+		git \
+		vim \
+		zip \
+		unzip \
+		sudo \
+		net-tools \
+		supervisor \
+		x11vnc \
+		xvfb \
+		novnc \
+		websockify \
+		openssl \
+		nodejs \
+		npm \
+		firefox \
+		xterm \
+		fluxbox \
+		python3 \
+		python3-pip \
+		build-essential && \
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
 	cp /usr/share/novnc/vnc.html /usr/share/novnc/index.html && \
 	openssl req -new -newkey rsa:2048 -days 36500 -nodes -x509 \
-	-subj "/C=US/ST=State/L=City/O=Org/CN=localhost" \
-	-keyout /etc/ssl/novnc.key -out /etc/ssl/novnc.cert && \
-	npm i -g websockify
+		-subj "/C=US/ST=State/L=City/O=Org/CN=localhost" \
+		-keyout /etc/ssl/novnc.key -out /etc/ssl/novnc.cert && \
+	mkdir -p /root/.vnc && \
+	x11vnc -storepasswd samplepass /root/.vnc/passwd
 
-ENTRYPOINT ["supervisord", "-l", "/app/supervisord.log", "-c"]
-CMD ["/app/supervisord.conf"]
+COPY supervisord.conf /etc/supervisord.conf
+
+CMD ["supervisord", "-c", "/etc/supervisord.conf", "-n"]
